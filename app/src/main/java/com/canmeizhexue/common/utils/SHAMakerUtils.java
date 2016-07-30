@@ -15,7 +15,7 @@ public final class SHAMakerUtils {
     public static void main(String[]args){
     	String originalString="获取字符串摘要信息";
     	byte[] array= sha256(originalString);
-    	String decodeString = byteToHexString(array);
+    	String decodeString = HexUtils.encodeHexStr(array);
     	System.out.println(decodeString);
     	System.out.println(decodeString.equalsIgnoreCase("8c891e63fbc28b5fdf5b036f6964e48deb9ab2a334f49c057ee3b0eb6a7b21dc"));
     }
@@ -44,23 +44,7 @@ public final class SHAMakerUtils {
 
         return null;
     }
-    /**
-     * 将指定byte数组转换成16进制字符串
-     *
-     * @param b
-     * @return
-     */
-    private static String byteToHexString(byte[] b) {
-        StringBuffer hexString = new StringBuffer();
-        for (int i = 0; i < b.length; i++) {
-            String hex = Integer.toHexString(b[i] & 0xFF);
-            if (hex.length() == 1) {
-                hex = '0' + hex;
-            }
-            hexString.append(hex.toUpperCase());
-        }
-        return hexString.toString();
-    }
+
 
 
 
