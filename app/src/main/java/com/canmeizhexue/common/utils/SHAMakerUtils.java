@@ -21,7 +21,7 @@ public final class SHAMakerUtils {
     }
 
     /**
-     * 获取字符串摘要信息
+     * 获取字符串摘要信息,256=32*8 是返回数组大小是32
      * @param str 字符串
      * @return
      */
