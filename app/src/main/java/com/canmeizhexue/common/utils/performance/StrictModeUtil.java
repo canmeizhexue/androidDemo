@@ -1,4 +1,4 @@
-package com.canmeizhexue.common.utils;
+package com.canmeizhexue.common.utils.performance;
 
 import android.os.Build;
 import android.os.StrictMode;
