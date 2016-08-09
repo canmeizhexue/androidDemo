@@ -22,6 +22,7 @@ public class BaseApplication extends Application{
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         // 使用leakCanary监控那些本该回收的对象, 会返回一个预定义的 RefWatcher，同时也会启用一个 ActivityRefWatcher，用于自动监控调用Activity.onDestroy() 之后泄露的 activity。
         refWatcher = LeakCanary.install(this);
+        // TODO 放到SplashActivity中做
         FolderManager.initSystemFolder("canmeizhexue");
     }
     public static BaseApplication getApplication(){

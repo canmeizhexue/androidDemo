@@ -56,6 +56,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".base.BaseApplication">
+        <!--这个要改成自己的-->
+        <meta-data
+            android:name="com.canmeizhexue.common.image.CustomGlideModule"
+            android:value="GlideModule" />
         <activity android:name=".ui.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

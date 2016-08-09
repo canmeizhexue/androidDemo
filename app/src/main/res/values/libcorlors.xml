@@ -7,4 +7,6 @@
     <color name="lib_global_main">#38D2C9</color>
     <!--点压时的颜色-->
     <color name="lib_global_press">#2DA39C</color>
+    <!-- 40%浅灰色 -->
+    <color name="lib_gray_light40">#b4b3b3</color>
 </resources>
