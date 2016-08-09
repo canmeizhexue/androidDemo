@@ -17,7 +17,7 @@ public class BaseApplication extends Application{
     public void onCreate() {
         super.onCreate();
         baseApplication = this;
-        //TODO 初始化性能监控组件
+        //TODO 初始化性能监控组件,就算退出程序，这个还是会引起内存增长的，不用担心
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         // 使用leakCanary监控那些本该回收的对象, 会返回一个预定义的 RefWatcher，同时也会启用一个 ActivityRefWatcher，用于自动监控调用Activity.onDestroy() 之后泄露的 activity。
         refWatcher = LeakCanary.install(this);
@@ -31,7 +31,7 @@ public class BaseApplication extends Application{
      * @param object 被监控的对象
      */
     public void watch(Object object){
-        if(object!=null){
+        if(object!=null && refWatcher!=null){
             refWatcher.watch(object);
         }
     }

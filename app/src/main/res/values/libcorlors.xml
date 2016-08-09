@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--禁用时的颜色-->
+    <color name="lib_global_disabled">#C0E1DF</color>
+    <!--交互设计要求-全局颜色值-->
+    <!--主色-主体配色，用于需要突出的文字、按钮等（如需要突出的价格、购买按钮）-->
+    <color name="lib_global_main">#38D2C9</color>
+    <!--点压时的颜色-->
+    <color name="lib_global_press">#2DA39C</color>
+</resources>
