@@ -23,3 +23,12 @@
   public *;
 }
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+
+## deal for core-3.2.1.jar ##
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.** { *;}
+
+## deal for dexmaker-1.2.jar ##
+-dontwarn com.google.dexmaker.**
+-keep class com.google.dexmaker.** { *;}

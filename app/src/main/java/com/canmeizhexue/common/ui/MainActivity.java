@@ -11,6 +11,7 @@ import com.canmeizhexue.common.R;
 import com.canmeizhexue.common.adapter.DemoAdapter;
 import com.canmeizhexue.common.base.BaseActivity;
 import com.canmeizhexue.common.entity.DemoModel;
+import com.canmeizhexue.common.ui.scandemo.ScanActivity;
 import com.canmeizhexue.common.views.webview.BrowerActivity;
 import com.canmeizhexue.common.views.webview.WebActivity;
 
@@ -66,5 +67,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         //WebActivity
         demoModels.add(new DemoModel("WebActivity", WebActivity.class));
         demoModels.add(new DemoModel("BrowerActivity", BrowerActivity.class));
+        demoModels.add(new DemoModel("二维码和条形码", ScanActivity.class));
     }
 }
