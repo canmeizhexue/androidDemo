@@ -68,5 +68,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         demoModels.add(new DemoModel("WebActivity", WebActivity.class));
         demoModels.add(new DemoModel("BrowerActivity", BrowerActivity.class));
         demoModels.add(new DemoModel("二维码和条形码", ScanActivity.class));
+        demoModels.add(new DemoModel("ImageBrowserActivity", ImageBrowserActivity.class));
+        demoModels.add(new DemoModel("ImageSelectorActivity", ImageSelectorActivity.class));
     }
 }

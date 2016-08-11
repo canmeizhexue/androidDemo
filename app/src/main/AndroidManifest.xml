@@ -76,6 +76,11 @@
         <activity android:name=".ui.scandemo.BarCodeActivity"/>
         <activity android:name=".ui.scandemo.QRCodeActivity"/>
         <activity android:name=".views.scan.custom.ui.CaptureActivity"/>
+
+        <activity android:name=".ui.ImageBrowserActivity"/>
+        <activity android:name=".ui.ImageSelectorActivity"/>
+        <activity android:name=".views.imageselector.MultiImageBrowserActivity"/>
+        <activity android:name=".views.imageselector.MultiImageSelectorActivity"/>
     </application>
 
 </manifest>

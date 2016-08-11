@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_btn_parents"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffdbdbde"
+    android:minWidth="10000dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+        android:text="title"
+        android:textColor="#A1A7AE"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textView_button1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+        android:text="button1"
+        android:textColor="#4A90E2"
+        android:textSize="16sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_button2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+        android:text="button2"
+        android:textColor="#4A90E2"
+        android:textSize="16sp"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/textView_button3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/actionsheet_middle_selector"
+        android:gravity="center"
+        android:text="button3"
+        android:textColor="#222222"
+        android:textSize="16sp" />
+
+</LinearLayout>
