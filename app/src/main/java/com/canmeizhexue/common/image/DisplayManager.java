@@ -18,7 +18,8 @@ import com.canmeizhexue.common.R;
 
 /**
  * <p>图片显示</p>
- *
+ *http://mrfu.me/2016/02/27/Glide_Getting_Started/
+ * https://github.com/bumptech/glide
  *  show()        1. 加载本地或网络，用于加载本地图片 和 如网络图片预览
  *  load()        2. 加载网络的图片，适用于表格，详情，列表等的小图，300x300, 服务器自动生成，方便可备份 （占带宽30KB左右）
  *  loadIcon()    3. 加载网络的图片，适用于头像等的小图，150x150  （占带宽10KB左右）
