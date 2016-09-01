@@ -11,9 +11,9 @@ import com.canmeizhexue.common.R;
 import com.canmeizhexue.common.adapter.DemoAdapter;
 import com.canmeizhexue.common.base.BaseActivity;
 import com.canmeizhexue.common.entity.DemoModel;
+import com.canmeizhexue.common.ui.dalvik.ClassLoaderActivity;
 import com.canmeizhexue.common.ui.scandemo.ScanActivity;
 import com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity;
-import com.canmeizhexue.common.utils.performance.ClassLoadCheckerUtil;
 import com.canmeizhexue.common.views.webview.BrowerActivity;
 import com.canmeizhexue.common.views.webview.WebActivity;
 
@@ -39,10 +39,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         demoModels = new ArrayList<>();
-        // 能够证明出现ViewFlowActivity.class的时候，这个类会被加载进来
-        ClassLoadCheckerUtil.checkLoaded(getClassLoader(),"com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity");
         initData();
-        ClassLoadCheckerUtil.checkLoaded(getClassLoader(),"com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity");
         demoAdapter = new DemoAdapter(this,demoModels);
         lvDemo.setAdapter(demoAdapter);
         lvDemo.setOnItemClickListener(this);
@@ -76,5 +73,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         demoModels.add(new DemoModel("ImageBrowserActivity", ImageBrowserActivity.class));
         demoModels.add(new DemoModel("ImageSelectorActivity", ImageSelectorActivity.class));
         demoModels.add(new DemoModel("Banner轮播", ViewFlowActivity.class));
+        demoModels.add(new DemoModel("ClassLoaderActivity", ClassLoaderActivity.class));
     }
 }

@@ -21,7 +21,6 @@ import butterknife.ButterKnife;
  * @version 1.0 (2015-10-23)
  */
 public class ViewFlowActivity extends BaseActivity {
-
     @Bind(R.id.viewflow)
     ViewFlow viewflow;
     @Bind(R.id.viewflowindic)

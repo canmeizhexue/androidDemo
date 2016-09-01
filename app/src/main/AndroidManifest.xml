@@ -83,6 +83,9 @@
         <activity android:name=".views.imageselector.MultiImageSelectorActivity"/>
         <!--轮播图-->
         <activity android:name=".ui.viewflowdemo.ViewFlowActivity"/>
+
+        <!--类加载测试-->
+        <activity android:name=".ui.dalvik.ClassLoaderActivity"/>
     </application>
 
 </manifest>
