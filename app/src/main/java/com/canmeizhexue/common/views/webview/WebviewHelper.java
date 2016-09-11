@@ -142,6 +142,11 @@ public class WebviewHelper {
     public void destroyView() {
         if (null != mWebView) {
             mWebView.stopLoading();
+            mWebView.clearCache(true);
+            mWebView.clearFormData();
+            mWebView.clearHistory();
+            mWebView.clearAnimation();
+            mWebView.clearView();
             mWebView.removeAllViews();
             mWebView.destroy();
         }

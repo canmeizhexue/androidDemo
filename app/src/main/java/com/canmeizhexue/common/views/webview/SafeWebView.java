@@ -1,16 +1,22 @@
 package com.canmeizhexue.common.views.webview;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.JsPromptResult;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -237,11 +243,134 @@ public class SafeWebView extends WebView {
             super.onPageStarted(view, url, favicon);
         }
     }
+    private ValueCallback<Uri> uploadMessage;
+    private ValueCallback<Uri[]> uploadMessageAboveL;
+    private final static int FILE_CHOOSER_RESULT_CODE = 10000;
+    private final static int FILE_CHOOSE_RESULT_CODE_ABOVE_L=10001;
+    private void openImageChooserActivity() {
+        Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+        i.addCategory(Intent.CATEGORY_OPENABLE);
+        i.setType("image/*");
+        if(getContext() instanceof Activity){
+            Activity activity = (Activity) getContext();
+            activity.startActivityForResult(Intent.createChooser(i, "Image Chooser"), FILE_CHOOSER_RESULT_CODE);
+        }
 
+    }
+
+    // TODO 如果要使用上传文件功能，必须添加这个，
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        if (requestCode == FILE_CHOOSER_RESULT_CODE) {
+            if (null == uploadMessage && null == uploadMessageAboveL) return;
+            Uri result = data == null || resultCode != Activity.RESULT_OK ? null : data.getData();
+            if (uploadMessageAboveL != null) {
+                onActivityResultAboveL(requestCode, resultCode, data);
+            } else if (uploadMessage != null) {
+                uploadMessage.onReceiveValue(result);
+                uploadMessage = null;
+            }
+        }else if(FILE_CHOOSE_RESULT_CODE_ABOVE_L==requestCode){
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                if (uploadMessageAboveL == null)
+                    return;
+                uploadMessageAboveL.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(resultCode, data));
+                uploadMessageAboveL = null;
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void onActivityResultAboveL(int requestCode, int resultCode, Intent intent) {
+        if (requestCode != FILE_CHOOSER_RESULT_CODE || uploadMessageAboveL == null)
+            return;
+        Uri[] results = null;
+        if (resultCode == Activity.RESULT_OK) {
+            // 可以用这个解析一下
+//                WebChromeClient.FileChooserParams.parseResult(resultCode,intent);
+            if (intent != null) {
+                String dataString = intent.getDataString();
+                ClipData clipData = intent.getClipData();
+                if (clipData != null) {
+                    results = new Uri[clipData.getItemCount()];
+                    for (int i = 0; i < clipData.getItemCount(); i++) {
+                        ClipData.Item item = clipData.getItemAt(i);
+                        results[i] = item.getUri();
+                    }
+                }
+                if (dataString != null)
+                    results = new Uri[]{Uri.parse(dataString)};
+            }
+        }
+        uploadMessageAboveL.onReceiveValue(results);
+        uploadMessageAboveL = null;
+    }
     /**
      * 如果没有使用addJavascriptInterface方法，不需要使用这个类；
      */
     public class SafeWebChromeClient extends WebChromeClient {
+        //http://stackoverflow.com/questions/5907369/file-upload-in-webview
+
+        // google自己浏览器，，http://grepcode.com/file/repository.grepcode.com/java/ext/com.google.android/android-apps/4.0.4_r1.2/com/android/browser/UploadHandler.java#UploadHandler.openFileChooser%28android.webkit.ValueCallback,java.lang.String%29
+        // 4.4  4.4.1  4.4.2这三个不会调用openFileChooser，4.4.3才修复这个bug
+
+        // For Android < 3.0
+        public void openFileChooser(ValueCallback<Uri> valueCallback) {
+            Log.d("silence","ValueCallback<Uri> valueCallback");
+            uploadMessage = valueCallback;
+            openImageChooserActivity();
+        }
+
+        // For Android  >= 3.0
+        public void openFileChooser(ValueCallback valueCallback, String acceptType) {
+            Log.d("silence","ValueCallback valueCallback, String acceptType");
+            uploadMessage = valueCallback;
+            openImageChooserActivity();
+        }
+
+        //For Android  >= 4.1  这个方法对于4.4不一定有用
+        public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
+            Log.d("silence","ValueCallback<Uri> valueCallback, String acceptType, String capture");
+
+            uploadMessage = valueCallback;
+            openImageChooserActivity();
+        }
+
+        // For Android >= 5.0
+        @Override
+        public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
+            Log.d("silence","onShowFileChooser");
+/*            // 5.0以上版本可以使用这个来创建intent，，，，  Intent intent = fileChooserParams.createIntent();
+            uploadMessageAboveL = filePathCallback;
+            openImageChooserActivity();
+            return true;*/
+
+            if (uploadMessage != null) {
+                uploadMessage.onReceiveValue(null);
+                uploadMessage = null;
+            }
+
+            uploadMessageAboveL = filePathCallback;
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+                Intent intent = fileChooserParams.createIntent();
+                try
+                {
+                    Activity activity = (Activity) getContext();
+                    activity.startActivityForResult(intent, FILE_CHOOSE_RESULT_CODE_ABOVE_L);
+                } catch (Exception e)
+                {
+                    uploadMessage = null;
+                    return false;
+                }
+                return true;
+            }else{
+                openImageChooserActivity();
+            }
+            return true;
+
+
+        }
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
