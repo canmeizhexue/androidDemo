@@ -30,6 +30,29 @@ public class ClassLoaderActivity extends BaseActivity{
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+/*                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cursor cursor=null;
+                        try {
+                            cursor = PhoneBookUtil.getMobilePhoneCursor(ClassLoaderActivity.this,"13822133405");
+                            if(cursor!=null && cursor.moveToFirst()){
+                                do{
+                                    ContactEntity entity = PhoneBookUtil.parseCursor(cursor);
+                                    LogUtils.d("silence","----"+entity);
+                                }while (cursor.moveToNext());
+                            }
+                            LogUtils.d("silence","----------end");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }finally {
+                            if(cursor!=null){
+                                cursor.close();
+                            }
+                        }
+                    }
+                }).start();*/
+
                 // 1.引用子类的静态变量，会导致子类和父类的初始化
 //                int i = SubModel.subValue;
                 //2. 引用子类的静态函数,会导致子类和父类的初始化
