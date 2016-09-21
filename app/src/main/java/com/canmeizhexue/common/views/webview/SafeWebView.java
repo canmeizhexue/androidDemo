@@ -259,6 +259,7 @@ public class SafeWebView extends WebView {
     }
 
     // TODO 如果要使用上传文件功能，必须添加这个，
+    // 有个地方需要主要，就算用户点击了取消不上传图片了，也要调用uploadMessage的onReceiveValue方法，传null.不然再次点击那个input标签会没反应
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
