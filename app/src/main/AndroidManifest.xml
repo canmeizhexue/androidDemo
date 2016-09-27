@@ -51,6 +51,18 @@
     <!-- 友盟社会化分享所需额外权限 by canmeizhexue-->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!--bugly所需权限-start-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <!--bugly所需权限-end-->
+
+    <!--蓝牙权限-start-->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <!--蓝牙权限-end-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -88,6 +100,12 @@
 
         <!--类加载测试-->
         <activity android:name=".ui.dalvik.ClassLoaderActivity"/>
+
+        <activity android:name=".bluetooth.BluetoothChatActivity"/>
+        <activity android:name=".bluetooth.BluetoothClientActivity"/>
+        <activity android:name=".bluetooth.BluetoothServerActivity"/>
+        <activity android:name=".bluetooth.BluetoothMainActivity"/>
+        <activity android:name=".bluetooth.DeviceListActivity"/>
     </application>
 
 </manifest>

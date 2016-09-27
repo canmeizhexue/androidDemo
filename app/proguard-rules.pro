@@ -33,7 +33,13 @@
 -dontwarn com.google.dexmaker.**
 -keep class com.google.dexmaker.** { *;}
 
-###这个方法是隐藏方法，所以要避免混淆，不然到时候不会调用我们的方法
+###webview混淆规则  这个方法是隐藏方法，所以要避免混淆，不然到时候不会调用我们的方法
 -keepclassmembers class * extends android.webkit.WebChromeClient {
    public void openFileChooser(...);
 }
+
+#### bugly混淆规则
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+
+

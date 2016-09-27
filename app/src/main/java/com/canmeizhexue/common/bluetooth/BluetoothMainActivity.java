@@ -1,4 +1,4 @@
-package com.canmeizhexue.common.ui;
+package com.canmeizhexue.common.bluetooth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,13 +10,7 @@ import android.widget.ListView;
 import com.canmeizhexue.common.R;
 import com.canmeizhexue.common.adapter.DemoAdapter;
 import com.canmeizhexue.common.base.BaseActivity;
-import com.canmeizhexue.common.bluetooth.BluetoothMainActivity;
 import com.canmeizhexue.common.entity.DemoModel;
-import com.canmeizhexue.common.ui.dalvik.ClassLoaderActivity;
-import com.canmeizhexue.common.ui.scandemo.ScanActivity;
-import com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity;
-import com.canmeizhexue.common.views.webview.BrowerActivity;
-import com.canmeizhexue.common.views.webview.WebActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +18,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+/**
+ * Created by silence on 2016/9/25.
+ *,通过客户端和服务端的程序，可以看出俩个蓝牙设备没有配对也是可以通信的,,使用一个UUID来标识一个RFECOMM信道，服务端必须在某一个信道上监听，客户端在同一个信道上发起连接请求
+ * 如果想深入，可以看设置程序里面的蓝牙相关部分代码
+ * http://blog.csdn.net/q610098308/article/details/45248423
+ * http://www.jb51.net/article/79335.htm
+ */
+public class BluetoothMainActivity extends BaseActivity  implements AdapterView.OnItemClickListener {
 
     @Bind(R.id.lv_demo)
     ListView lvDemo;
@@ -50,12 +51,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     @Override
     protected void onResume() {
         super.onResume();
-/*        // TODO 测试BlockCanary
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
@@ -70,13 +65,10 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
         demoModels.clear();
         //WebActivity
-        demoModels.add(new DemoModel("WebActivity", WebActivity.class));
-        demoModels.add(new DemoModel("BrowerActivity", BrowerActivity.class));
-        demoModels.add(new DemoModel("二维码和条形码", ScanActivity.class));
-        demoModels.add(new DemoModel("ImageBrowserActivity", ImageBrowserActivity.class));
-        demoModels.add(new DemoModel("ImageSelectorActivity", ImageSelectorActivity.class));
-        demoModels.add(new DemoModel("Banner轮播", ViewFlowActivity.class));
-        demoModels.add(new DemoModel("ClassLoaderActivity", ClassLoaderActivity.class));
-        demoModels.add(new DemoModel("蓝牙相关y", BluetoothMainActivity.class));
+        demoModels.add(new DemoModel("客户端程序", BluetoothClientActivity.class));
+        demoModels.add(new DemoModel("服务端程序", BluetoothServerActivity.class));
+        demoModels.add(new DemoModel("蓝牙功能", BluetoothChatActivity.class));
+        demoModels.add(new DemoModel("蓝牙设备扫描", DeviceListActivity.class));
+
     }
 }

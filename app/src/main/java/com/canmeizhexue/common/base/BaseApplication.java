@@ -2,11 +2,13 @@ package com.canmeizhexue.common.base;
 
 import android.app.Application;
 
+import com.canmeizhexue.common.BuildConfig;
 import com.canmeizhexue.common.manager.FolderManager;
 import com.canmeizhexue.common.utils.performance.AppBlockCanaryContext;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**Application
  * Created by canmeizhexue on 2016-8-3.
@@ -18,6 +20,10 @@ public class BaseApplication extends Application{
     public void onCreate() {
         super.onCreate();
         baseApplication = this;
+
+        //bugly初始化,,当然也可以通过AndroidManifest文件来配置，详细情况可以查看bugly的高级配置文档
+        CrashReport.initCrashReport(this,"0acbfe93a1", BuildConfig.DEBUG);
+
         //TODO 初始化性能监控组件,就算退出程序，这个还是会引起内存增长的，不用担心
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
         // 使用leakCanary监控那些本该回收的对象, 会返回一个预定义的 RefWatcher，同时也会启用一个 ActivityRefWatcher，用于自动监控调用Activity.onDestroy() 之后泄露的 activity。
