@@ -11,6 +11,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**主要是绕过了NotificationManagerService对Toast的限制，比如说时间，待显示toast个数的限制
+ * 如果需要，可以自己仿照NotificationManagerService写一个队列来管理toast
  * <p>ExToast类 Toast拓展类，支持设置自定义持续时间及进出场动画</p>
  *
  * @author canmeizhexue 参考自：http://blog.csdn.net/xyq046463/article/details/51829093
