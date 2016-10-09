@@ -224,7 +224,7 @@ public static String resizePhoto(Context c,String originPhotoPath,int defaultPat
 			screenWidth = dm.widthPixels;
 		}
 
-		return ContextUtils.convertPX2DIP(context, screenWidth);
+		return ContextUtils.px2dp(context, screenWidth);
 	}
 	
 	/**
@@ -463,13 +463,13 @@ public static String resizePhoto(Context c,String originPhotoPath,int defaultPat
     }
     
 	/** 转换dip为px*/
-	public static int convertDIP2PX(Context context, int dip) {
+	public static int dp2px(Context context, int dip) {
 		float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dip * scale + 0.5f * (dip >= 0 ? 1 : -1));
 	}
 
 	/** 转换px为dip*/
-	public static int convertPX2DIP(Context context, int px) {
+	public static int px2dp(Context context, int px) {
 		float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (px / scale + 0.5f * (px >= 0 ? 1 : -1));
 	}

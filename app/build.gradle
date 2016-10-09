@@ -48,10 +48,15 @@ dependencies {
     compile 'com.jakewharton:butterknife:7.0.1'
     //图片处理 google glide -----> https://github.com/bumptech/glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
-//    compile files('libs/core.jar')
+    //    compile files('libs/core.jar')
     // 引入腾讯bugly，方便发现崩溃(java层、native层、webview中的js)、发现ANR、收集运营数据
     //https://bugly.qq.com/v2/index
-    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
     //NDK配置，如果没有so,这个可以不要，但是引入第三方的时候可能间接的引入了so,所以这个最好还是要保留
-    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    compile 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    //https://github.com/greenrobot/EventBus
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.android.support:design:24.0.0'
 }

@@ -51,7 +51,7 @@ public class LetterListView extends View {
 		int singleHeight = height / letters.length;
 		for (int i = 0; i < letters.length; i++) {
 			paint.setColor(getResources().getColor(R.color.letter_listview_text_color));
-			paint.setTextSize(ContextUtils.convertDIP2PX(getContext(), 14));
+			paint.setTextSize(ContextUtils.dp2px(getContext(), 14));
 			paint.setTypeface(Typeface.DEFAULT_BOLD);
 			paint.setAntiAlias(true);
 			if (i == choose) {
