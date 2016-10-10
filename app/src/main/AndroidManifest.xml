@@ -111,6 +111,11 @@
         <activity android:name=".emojiexpression.EmojiMainActivity"/>
         <activity android:name=".emojiexpression.EditTextActivity"/>
         <activity android:name=".emojiexpression.ListViewBarEditActivity"/>
+
+
+        <activity android:name=".fragments.FragmentsMainActivity"></activity>
+        <activity android:name=".fragments.PagerActivity"/>
+        <activity android:name=".fragments.StatePagerActivity"/>
     </application>
 
 </manifest>
