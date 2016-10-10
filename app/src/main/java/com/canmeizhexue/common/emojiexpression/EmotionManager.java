@@ -1,9 +1,19 @@
 package com.canmeizhexue.common.emojiexpression;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.util.ArrayMap;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ImageSpan;
+import android.view.KeyEvent;
+import android.widget.EditText;
 
 import com.canmeizhexue.common.R;
 import com.canmeizhexue.common.utils.LogUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**表情管理类
  * Created by silence on 2016-10-9.
@@ -24,6 +34,8 @@ public class EmotionManager {
     public static ArrayMap<String, Integer> emotionClassicMap;
     public static final String EMOTION_DELETE="[删除]";
     public static final int EMOTION_DELETE_RES_ID=R.mipmap.compose_emotion_delete;
+    private static final String regexEmotion = "\\[([\u4e00-\u9fa5\\w])+\\]";
+    private static Pattern patternEmotion = Pattern.compile(regexEmotion);
     /**
      * 根据类型和表情的名字，获取对应的资源id值
      * @param emotionType 表情类型标志符
@@ -60,7 +72,44 @@ public class EmotionManager {
         }
         return emojiMap;
     }
+    public static void handleEmotion(EditText editText,CharSequence charSequence,int start,int count,int emotionType,int currentCursorPosition){
+        CharSequence changed = charSequence.subSequence(start,start+count);
+        if(changed.equals(EMOTION_DELETE)){
+            // 如果点击了最后一个回退按钮,则调用删除键事件
+            editText.dispatchKeyEvent(new KeyEvent(
+                    KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+            return ;
+        }
+        // 不进行这些判断，会报异常的
+        SpannableString changedSpannable = new SpannableString(changed);
+        ImageSpan[] imageSpans=changedSpannable.getSpans(0,changedSpannable.length(),ImageSpan.class);
+        if(imageSpans!=null && imageSpans.length>0){
 
+            return ;
+        }
+/*        if(!TextUtils.isEmpty(changed) && changed instanceof Spannable){
+            return ;
+        }*/
+        Matcher matcherEmotion = patternEmotion.matcher(changed);
+        if(matcherEmotion.find()){
+            // 获取匹配到的具体字符
+            String key = matcherEmotion.group();
+            // 利用表情名字获取到对应的图片
+            Integer imgRes = EmotionManager.getImgByName(emotionType,key);
+            if (imgRes != null) {
+                // 压缩表情图片
+                int size = (int) editText.getTextSize()*13/10;
+                Bitmap bitmap = BitmapFactory.decodeResource(editText.getResources(), imgRes);
+                Bitmap scaleBitmap = Bitmap.createScaledBitmap(bitmap, size, size, true);
+
+                ImageSpan span = new ImageSpan(editText.getContext(), scaleBitmap);
+                SpannableString spannableString = new SpannableString(charSequence);
+                spannableString.setSpan(span, start, start + key.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                editText.setText(spannableString);
+                editText.setSelection(currentCursorPosition+changed.length());
+            }
+        }
+    }
     /**
      * 初始化经典表情
      * @return

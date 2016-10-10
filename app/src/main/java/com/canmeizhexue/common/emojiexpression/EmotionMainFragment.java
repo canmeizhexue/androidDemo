@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.canmeizhexue.common.R;
 import com.canmeizhexue.common.base.BaseFragment;
 import com.canmeizhexue.common.entity.EmojiEventParam;
 import com.canmeizhexue.common.entity.EventBusParams;
+import com.canmeizhexue.common.utils.LogUtils;
 import com.canmeizhexue.common.utils.SharedPreferencedUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +34,7 @@ import java.util.List;
 /**表情fragment
  * Created by silence on 2016-10-9.
  */
-public class EmotionMainFragment extends BaseFragment {
+public class EmotionMainFragment extends BaseFragment implements TextWatcher{
 
     //是否绑定当前Bar的编辑框的flag
     public static final String BIND_TO_EDITTEXT="bind_to_edittext";
@@ -64,6 +68,8 @@ public class EmotionMainFragment extends BaseFragment {
 
     //是否隐藏bar上的编辑框和发生按钮,默认不隐藏
     private boolean isHidenBarEditTextAndBtn=false;
+
+    private EditText bindedEditText;
 
     List<Fragment> fragments=new ArrayList<>();
 
@@ -105,6 +111,7 @@ public class EmotionMainFragment extends BaseFragment {
 //        GlobalOnItemClickManagerUtils globalOnItemClickManager= GlobalOnItemClickManagerUtils.getInstance(getActivity());
 
         if(isBindToBarEditText){
+
             //绑定当前Bar的编辑框
 //            globalOnItemClickManager.attachToEditText(bar_edit_text);
 
@@ -113,6 +120,12 @@ public class EmotionMainFragment extends BaseFragment {
 //            globalOnItemClickManager.attachToEditText((EditText) contentView);
             mEmotionKeyboard.bindToEditText((EditText)contentView);
         }
+        if(isBindToBarEditText){
+            bindedEditText = (EditText) rootView.findViewById(R.id.bar_edit_text);
+        }else{
+            bindedEditText = (EditText) contentView;
+        }
+        bindedEditText.addTextChangedListener(this);
         EventBus.getDefault().register(this);
         return rootView;
     }
@@ -122,6 +135,7 @@ public class EmotionMainFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
         super.onDestroyView();
     }
+    private int currentEmotionType;
     @Subscribe
     public void onEventMainThread(EventBusParams eventBusParams){
         if(eventBusParams!=null && EmojiConstant.EVENT_EMOJI_CLICKED.equals(eventBusParams.EVENT_BUS_TYPE)){
@@ -132,6 +146,13 @@ public class EmotionMainFragment extends BaseFragment {
             }else{
                 editText = (EditText) contentView;
             }
+            currentEmotionType = emojiEventParam.emojiType;
+
+/*            String emotionName = emojiEventParam.emojiName;
+            int curPosition = editText.getSelectionStart();
+            Editable editable = editText.getText();
+            //指定位置插入文字，触发textwatcher
+            editable.insert(curPosition,emotionName);*/
             if(emojiEventParam.resId==EmotionManager.EMOTION_DELETE_RES_ID || EmotionManager.EMOTION_DELETE.equals(emojiEventParam.emojiName)){
                 // 如果点击了最后一个回退按钮,则调用删除键事件
                 editText.dispatchKeyEvent(new KeyEvent(
@@ -140,17 +161,19 @@ public class EmotionMainFragment extends BaseFragment {
                 // 如果点击了表情,则添加到输入框中
                 String emotionName = emojiEventParam.emojiName;
 
+
                 // 获取当前光标位置,在指定位置上添加表情图片文本
                 int curPosition = editText.getSelectionStart();
-                StringBuilder sb = new StringBuilder(editText.getText().toString());
-                sb.insert(curPosition, emotionName);
-
-                // 特殊文字处理,将表情等转换一下
-                editText.setText(SpanStringUtils.getEmotionContent(emojiEventParam.emojiType,
-                        getActivity(), editText, sb.toString()));
-
+//                StringBuilder sb = new StringBuilder(editText.getText().toString());
+//                sb.insert(curPosition, emotionName);
+//
+//                // 特殊文字处理,将表情等转换一下
+//                editText.setText(SpanStringUtils.getEmotionContent(emojiEventParam.emojiType,
+//                        getActivity(), editText, sb.toString()));
+                Editable editable = editText.getText();
+                editable.insert(curPosition,emotionName);
                 // 将光标设置到新增完表情的右侧
-                editText.setSelection(curPosition + emotionName.length());
+//                editText.setSelection(curPosition + emotionName.length());
             }
 
         }
@@ -274,6 +297,58 @@ public class EmotionMainFragment extends BaseFragment {
      */
     public boolean isInterceptBackPress(){
         return mEmotionKeyboard.interceptBackPress();
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+        /*   此时charSequence并没有包含变化的内容     这句话是说，从start位置开始有count个字符，将要被after个字符代替。
+        如果你添加了一个字符，就从start位置开始，after=1 。如果你删了一个字符，start同样的意思，after=0就是1个字符被替代0个字符替代;*/
+        currentSelection = bindedEditText.getSelectionStart();
+        LogUtils.d("silence","beforeTextChanged---charSequence---"+charSequence+"------start---"+start+"-------count---"+count+"-------after----"+after);
+    }
+    private CharSequence charSequence;
+    private int start,count,currentSelection;
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        /* 此时charSequence已经包含变化的内容 并且这里不要对CharSequence进行改变      这句话是说，从start位置开始有count个字符，替代了旧的文本框内的before个字符。
+        如果你添加了，一个字符，就从start位置开始，before=0 ,之前并没有什么被替代。如果你删了一个字符，start同样的意思，before=1就是1个字符被替代0个字符替代，所以count=0;*/
+        if(count==0){
+            // 删除字符
+            LogUtils.d("silence","delete");
+        }
+        charSequence = s;
+        this.start = start;
+        this.count = count;
+        CharSequence  changed = s.subSequence(start,start+count);
+
+        LogUtils.d("silence","changed---"+changed);
+        LogUtils.d("silence","onTextChanged--------"+s+"--start----"+start+"----before----"+before+"-------count-----"+count);
+/*        if(!TextUtils.isEmpty(changed) && "2".equals(changed.toString())){
+            int selection = bindedEditText.getSelectionStart();
+            bindedEditText.setText(s.subSequence(0,start).toString()+s.subSequence(start+count,s.length()).toString());
+            bindedEditText.setSelection(selection-1);
+        }*/
+
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        LogUtils.d("silence","afterTextChanged--------"+editable.toString());
+        CharSequence  changed = charSequence.subSequence(start,start+count);
+/*        if(!TextUtils.isEmpty(changed) && "2".equals(changed.toString())){
+            int selection = bindedEditText.getSelectionStart();
+            bindedEditText.setText(s.subSequence(0,start).toString()+s.subSequence(start+count,s.length()).toString());
+            bindedEditText.setSelection(selection-1);
+        }*/
+        if(!TextUtils.isEmpty(changed)){
+            EmotionManager.handleEmotion(bindedEditText,charSequence,start,count,currentEmotionType,currentSelection);
+        }
+/*        if (TextUtils.isEmpty(etInput.getText().toString())) {
+            ivSend.setEnabled(false);
+        } else {
+            ivSend.setEnabled(true);
+        }*/
     }
 }
 

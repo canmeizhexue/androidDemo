@@ -150,7 +150,7 @@ public class EmotionKeyboard {
 	    private void showEmotionLayout() {
 	        int softInputHeight = getSupportSoftInputHeight();
 	        if (softInputHeight == 0) {
-	            softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 400);
+	            softInputHeight = sp.getInt(SHARE_PREFERENCE_SOFT_INPUT_HEIGHT, 500);
 	        }
 	        hideSoftInput();
 	        mEmotionLayout.getLayoutParams().height = softInputHeight;
@@ -174,8 +174,10 @@ public class EmotionKeyboard {
 	     * 锁定内容高度，防止跳闪
 	     */
 	    private void lockContentHeight() {
+			// 每次锁定内容时，其实要么已经显示了表情面板，要么已经显示了输入法
 	        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
 	        params.height = mContentView.getHeight();
+			LogUtils.d("silence","-----params.height------"+params.height);
 	        params.weight = 0.0F;
 	    }
 
