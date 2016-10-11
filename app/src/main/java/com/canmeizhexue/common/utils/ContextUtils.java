@@ -590,6 +590,28 @@ public static String resizePhoto(Context c,String originPhotoPath,int defaultPat
 	 public static void test(){
 		 
 	 }
-	 
+
+	private static String umengChannelCache;
+
+	/**
+	 * 获取渠道号
+	 * @param context 上下文
+	 * @return
+	 */
+	public static synchronized String getUmengChannel(Context context){
+		if(umengChannelCache==null){
+			if(context!=null){
+				try {
+					ApplicationInfo applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(),PackageManager.GET_META_DATA);
+					// 请注意这个字段必须和Androidmanifest.xml文件里面的一致
+					umengChannelCache=applicationInfo.metaData.getString("UMENG_CHANNEL");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return umengChannelCache;
+	}
 	 
 }

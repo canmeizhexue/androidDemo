@@ -1,14 +1,15 @@
 package com.canmeizhexue.common.base;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
-import com.canmeizhexue.common.BuildConfig;
+import com.canmeizhexue.common.helper.BuglyHelper;
 import com.canmeizhexue.common.manager.FolderManager;
 import com.canmeizhexue.common.utils.performance.AppBlockCanaryContext;
 import com.github.moduth.blockcanary.BlockCanary;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
-import com.tencent.bugly.crashreport.CrashReport;
 
 /**Application
  * Created by canmeizhexue on 2016-8-3.
@@ -16,13 +17,25 @@ import com.tencent.bugly.crashreport.CrashReport;
 public class BaseApplication extends Application{
     private static BaseApplication baseApplication;
     private RefWatcher refWatcher;
+    /**
+     * 支持多dex，拆包
+     * <br/>注意在build.gradle配置
+     * <p>开启multidex支持 multiDexEnabled true<p/>
+     *
+     * @param base 上下文
+     */
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
     @Override
     public void onCreate() {
         super.onCreate();
         baseApplication = this;
 
         //bugly初始化,,当然也可以通过AndroidManifest文件来配置，详细情况可以查看bugly的高级配置文档
-        CrashReport.initCrashReport(this,"0acbfe93a1", BuildConfig.DEBUG);
+        BuglyHelper.initConfig(this);
 
         //TODO 初始化性能监控组件,就算退出程序，这个还是会引起内存增长的，不用担心
         BlockCanary.install(this, new AppBlockCanaryContext()).start();
