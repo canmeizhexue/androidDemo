@@ -14,6 +14,7 @@ import com.canmeizhexue.common.bluetooth.BluetoothMainActivity;
 import com.canmeizhexue.common.emojiexpression.EmojiMainActivity;
 import com.canmeizhexue.common.entity.DemoModel;
 import com.canmeizhexue.common.fragments.FragmentsMainActivity;
+import com.canmeizhexue.common.guidepage.SplashActivity;
 import com.canmeizhexue.common.ui.dalvik.ClassLoaderActivity;
 import com.canmeizhexue.common.ui.scandemo.ScanActivity;
 import com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity;
@@ -82,5 +83,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         demoModels.add(new DemoModel("蓝牙相关y", BluetoothMainActivity.class));
         demoModels.add(new DemoModel("表情相关", EmojiMainActivity.class));
         demoModels.add(new DemoModel("fragment相关", FragmentsMainActivity.class));
+        demoModels.add(new DemoModel("引导页相关", SplashActivity.class));
     }
 }

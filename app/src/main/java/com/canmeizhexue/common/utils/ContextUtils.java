@@ -314,7 +314,6 @@ public static String resizePhoto(Context c,String originPhotoPath,int defaultPat
 		}   
 		return null;
 	}
-	
 	/**
 	 * 获取MCC码
 	 */

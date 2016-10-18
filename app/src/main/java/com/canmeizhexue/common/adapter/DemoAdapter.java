@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * <p>DemoAdapter类 </p>
  *
- * @author hxm
+ * @author silence
  * @version 1.0 (2015/10/19)
  */
 public class DemoAdapter extends BaseAdapter<DemoModel> {

@@ -241,7 +241,8 @@ public class EmotionMainFragment extends BaseFragment implements TextWatcher{
 
         //记录底部默认选中第一个
         currentPosition =0;
-        SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, currentPosition);
+        final SharedPreferencedUtils sharedPreferencedUtils = new SharedPreferencedUtils(getActivity(),"emotion");
+        sharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, currentPosition);
 
         //底部tab
         horizontalRecyclerviewAdapter = new HorizontalRecyclerviewAdapter(getActivity(),list);
@@ -253,13 +254,13 @@ public class EmotionMainFragment extends BaseFragment implements TextWatcher{
             @Override
             public void onItemClick(View view, int position, List<ImageModel> datas) {
                 //获取先前被点击tab
-                int oldPosition = SharedPreferencedUtils.getInteger(getActivity(), CURRENT_POSITION_FLAG, 0);
+                int oldPosition = sharedPreferencedUtils.getInteger(getActivity(), CURRENT_POSITION_FLAG, 0);
                 //修改背景颜色的标记
                 datas.get(oldPosition).isSelected = false;
                 //记录当前被选中tab下标
                 currentPosition = position;
                 datas.get(currentPosition).isSelected = true;
-                SharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, currentPosition);
+                sharedPreferencedUtils.setInteger(getActivity(), CURRENT_POSITION_FLAG, currentPosition);
                 //通知更新，这里我们选择性更新就行了
                 horizontalRecyclerviewAdapter.notifyItemChanged(oldPosition);
                 horizontalRecyclerviewAdapter.notifyItemChanged(currentPosition);

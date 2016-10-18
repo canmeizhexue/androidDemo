@@ -73,6 +73,10 @@ public class EmojiIndicatorView extends LinearLayout {
         final View viewNext =  mImageViews.get(nextPosition);
         viewNext.setBackgroundResource(R.drawable.shape_bg_indicator_point_select);
         viewStart.setBackgroundResource(R.drawable.shape_bg_indicator_point_nomal);
+        if(startPosition==nextPosition){
+            viewStart.setBackgroundResource(R.drawable.shape_bg_indicator_point_select);
+        }
+
     }
 
 }

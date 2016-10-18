@@ -84,6 +84,7 @@ android {
             buildConfigField "boolean", "IS_SHOW_BUSI_CODE", "true"
             //自定义字段，app 英文名称
             buildConfigField "String", "APP_NAME", "\"${APP_NAME}\""
+
         }
 
         ebeta {//测试环境
@@ -104,6 +105,7 @@ android {
             buildConfigField "boolean", "IS_SHOW_BUSI_CODE", "true"
             //自定义字段，app 英文名称
             buildConfigField "String", "APP_NAME", "\"${APP_NAME}\""
+
 
 
         }
@@ -127,6 +129,7 @@ android {
             //自定义字段，app 英文名称
             buildConfigField "String", "APP_NAME", "\"${APP_NAME}\""
 
+
         }
 
         stg {//预生产环境
@@ -148,6 +151,7 @@ android {
             //自定义字段，app 英文名称
             buildConfigField "String", "APP_NAME", "\"${APP_NAME}\""
 
+
         }
 
         release {//生产环境
@@ -167,6 +171,7 @@ android {
             buildConfigField "boolean", "IS_SHOW_BUSI_CODE", "false"
             //自定义字段，app 英文名称
             buildConfigField "String", "APP_NAME", "\"${APP_NAME}\""
+
 
         }
     }
