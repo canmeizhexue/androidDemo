@@ -18,6 +18,7 @@ import com.canmeizhexue.common.guidepage.SplashActivity;
 import com.canmeizhexue.common.ui.dalvik.ClassLoaderActivity;
 import com.canmeizhexue.common.ui.scandemo.ScanActivity;
 import com.canmeizhexue.common.ui.viewflowdemo.ViewFlowActivity;
+import com.canmeizhexue.common.viewpager.ViewPagerActivity;
 import com.canmeizhexue.common.views.webview.BrowerActivity;
 import com.canmeizhexue.common.views.webview.WebActivity;
 
@@ -84,5 +85,6 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         demoModels.add(new DemoModel("表情相关", EmojiMainActivity.class));
         demoModels.add(new DemoModel("fragment相关", FragmentsMainActivity.class));
         demoModels.add(new DemoModel("引导页相关", SplashActivity.class));
+        demoModels.add(new DemoModel("自己viewpager", ViewPagerActivity.class));
     }
 }

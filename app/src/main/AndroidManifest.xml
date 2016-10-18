@@ -118,6 +118,8 @@
 
         <activity android:name=".guidepage.GuidePageActivity"/>
         <activity android:name=".guidepage.SplashActivity"/>
+
+        <activity android:name=".viewpager.ViewPagerActivity"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
