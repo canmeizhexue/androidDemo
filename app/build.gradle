@@ -340,4 +340,6 @@ dependencies {
 
     //添加multidex的外部依赖jar包
     compile 'com.android.support:multidex:1.0.0'
+
+    compile 'com.android.support:support-v4:24.1.1'
 }
