@@ -1,14 +1,21 @@
 package com.canmeizhexue.common.ui.dalvik;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.canmeizhexue.common.base.BaseActivity;
 import com.canmeizhexue.common.entity.classloader.SubModel;
 import com.canmeizhexue.common.utils.LogUtils;
 import com.canmeizhexue.common.utils.performance.ClassLoadCheckerUtil;
+
+import java.io.File;
 
 /**classLoader测试类
  * Created by zengyaping on 2016-9-1.
@@ -74,5 +81,81 @@ public class ClassLoaderActivity extends BaseActivity{
             }
         });
 
+    }
+    private void printClassLoader(){
+        Application application = getApplication();
+
+        Log.d("silence","----getPackageCodePath---"+application.getPackageCodePath());
+        Log.d("silence","---getPackageResourcePath----"+application.getPackageResourcePath());
+        Log.d("silence","---getCacheDir----"+application.getCacheDir());
+        Log.d("silence","---getExternalCacheDir----"+application.getExternalCacheDir());
+        Log.d("silence","---getFilesDir----"+application.getFilesDir());
+        Log.d("silence","---getObbDir----"+application.getObbDir());
+        //这些目录在应用程序卸载的时候会删除
+        Log.d("silence","---getExternalFilesDir----"+application.getExternalFilesDir(null));
+        Log.d("silence","---getExternalFilesDir----"+application.getExternalFilesDir("hello"));
+
+        ApplicationInfo applicationInfo=application.getApplicationInfo();
+        Log.d("silence","---dataDir----"+applicationInfo.dataDir);
+        Log.d("silence","---sourceDir----"+applicationInfo.sourceDir);
+//        LogUtil.d("silence","---deviceProtectedDataDir----"+applicationInfo.deviceProtectedDataDir);
+        Log.d("silence","---nativeLibraryDir----"+applicationInfo.nativeLibraryDir);
+        File file = new File(applicationInfo.nativeLibraryDir);
+        if(file.exists() && file.isDirectory()){
+            String[]files=file.list();
+            for(String fileName:files){
+                Log.d("silence","---nativeLibraryDir--fileName--"+ fileName);
+            }
+        }
+        Log.d("silence","---publicSourceDir----"+applicationInfo.publicSourceDir);
+        Log.d("silence","---sharedLibraryFiles----"+applicationInfo.sharedLibraryFiles);
+        Log.d("silence","---sourceDir----"+applicationInfo);
+
+//        LogUtil.d("silence","---getObbDir----"+application.getObbDirs());
+//        LogUtil.d("silence","---getCodeCacheDir----"+application.getCodeCacheDir());
+
+
+        Log.i("DEMO", "Context的类加载加载器:"+Context.class.getClassLoader());
+        Log.i("DEMO", "ListView的类加载器:"+ListView.class.getClassLoader());
+        Log.i("DEMO", "应用程序默认加载器:"+getClassLoader());
+        Log.i("DEMO", "系统类加载器:"+ClassLoader.getSystemClassLoader());
+        Log.i("DEMO", "系统类加载器和Context的类加载器是否相等:"+(Context.class.getClassLoader()==ClassLoader.getSystemClassLoader()));
+        Log.i("DEMO", "系统类加载器和应用程序默认加载器是否相等:"+(getClassLoader()==ClassLoader.getSystemClassLoader()));
+
+        Log.i("DEMO","打印应用程序默认加载器的委派机制:");
+        ClassLoader classLoader = getClassLoader();
+        while(classLoader != null){
+            Log.i("DEMO", "类加载器:"+classLoader);
+            classLoader = classLoader.getParent();
+        }
+
+        Log.i("DEMO","打印系统加载器的委派机制:");
+        classLoader = ClassLoader.getSystemClassLoader();
+        while(classLoader != null){
+            Log.i("DEMO", "类加载器:"+classLoader);
+            classLoader = classLoader.getParent();
+        }
+        //俩者的BootClassLoader是同一个实例
+/*        try {
+            Log.i("DEMO","打印应用程序默认加载器的委派机制:"+(getClassLoader().getParent()==classLoader.getParent()));
+        }catch (Exception e){
+
+            // 这样可以加上我们自己的信息
+            Exception exception = new Exception("崩溃啦--------",e );
+            //加上这句话，不再打印构造上面那个Exception的堆栈信息，不然堆栈信息过长的话，可能原来有用的信息却打印不出来了，，尤其是捕捉到UnsatisfiedLinkError
+            exception.setStackTrace(new StackTraceElement[0]);
+            exception.printStackTrace();
+        }catch (Error error){
+            if(error instanceof UnsatisfiedLinkError){
+            //描述信息可以加上applicationInfo.nativeLibraryDir里面是否真的存在相应文件
+                Error newError = new Error("发生错误了",error);
+                //加上这句话，不再打印构造上面那个Exception的堆栈信息，不然堆栈信息过长的话，可能原来有用的信息却打印不出来了，，尤其是捕捉到UnsatisfiedLinkError
+                newError.setStackTrace(new StackTraceElement[0]);
+                newError.printStackTrace();
+            }else {
+                error.printStackTrace();
+            }
+
+        }*/
     }
 }
